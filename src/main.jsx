@@ -10,7 +10,7 @@ const root = ReactDOM.createRoot(document.getElementById("root"))
 
 root.render(
   <PrivyProvider
-    appId={process.env.REACT_APP_PRIVY_API_KEY}
+    appId={import.meta.env.VITE_PRIVY_API_KEY}
     config={{
 
       appearance: {
