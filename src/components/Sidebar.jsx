@@ -8,7 +8,7 @@ const Icon = ({ styles, name, Icon, isActive, handleClick }) => {
     const isIconActive = isActive === name;
     return (
         <div
-            className={`h-12 w-12 rounded-lg flex items-center justify-center cursor-pointer transition-all duration-300 ease-in-out transform ${isIconActive ? 'bg-[#2c2f32] scale-110' : 'bg-[#1c1c24] hover:scale-105'
+            className={`h-12 w-12 rounded-lg flex items-center justify-center cursor-pointer transition-all duration-300 ease-in-out transform ${isIconActive ? 'bg-[#008080] scale-110' : 'bg-[#1c1c24] hover:scale-105'
                 } ${styles}`}
             onClick={handleClick}
         >
@@ -26,15 +26,14 @@ const Sidebar = () => {
     return (
         <div className="fixed top-0 left-0 h-full w-20 
         bg-[#1c1c24] flex flex-col items-center py-8 shadow-lg">
-            {/* Add top margin for LuHeartHandshake */}
             <Link to='/' className="mb-16">
                 <div className="rounded-lg bg-[#2c2f32] p-2 hover:shadow-xl transition-all">
-                    <LuHeartHandshake size={40} color="#1ec070" />
+                    <LuHeartHandshake size={40} color="#008080" />
                 </div>
             </Link>
 
             {/* Icons with small gaps between them */}
-            <div className="flex flex-col items-center flex-1 space-y-4">
+            <div className="flex flex-col items-center flex-1 space-y-4 " >
                 {
                     navLinks.map((link) => (
                         <Icon
