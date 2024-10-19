@@ -16,7 +16,7 @@ const Navbar = () => {
 
 
 
-    console.log("user info", user)
+    // console.log("user info", user)
     const handleLoginLogout = useCallback(() => {
         if (authenticated) {
             logout();

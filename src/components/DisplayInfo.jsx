@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { usePrivy } from "@privy-io/react-auth";
 import MetricsCard from "./MetricsCard"; // Adjust the import path
-// import { useStateContext } from "../context"; 
+import { useStateContext } from "../context"; 
 import { BsHourglassSplit } from "react-icons/bs";
 import { FaFolder, FaRegCircleCheck } from "react-icons/fa6";
 import { TbUserScan } from "react-icons/tb";
@@ -11,7 +11,7 @@ import { IoMdAlert } from "react-icons/io";
 const DisplayInfo = () => {
   const navigate = useNavigate();
   const { user } = usePrivy();
-//   const { fetchUserRecords, records, fetchUserByEmail } = useStateContext();
+  const { fetchUserRecords, records, fetchUserByEmail } = useStateContext();
   const [metrics, setMetrics] = useState({
     totalFolders: 0,
     aiPersonalizedTreatment: 0,
