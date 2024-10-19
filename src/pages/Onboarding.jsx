@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-// import { useStateContext } from "../context";
+import { useStateContext } from "../context";
 import { usePrivy } from "@privy-io/react-auth";
 
 const Onboarding = () => {
-//   const { createUser } = useStateContext();
+  const { createUser } = useStateContext();
   const [username, setUsername] = useState("");
   const [age, setAge] = useState("");
   const [location, setLocation] = useState("");
@@ -18,9 +18,9 @@ const Onboarding = () => {
       username,
       age: parseInt(age, 10),
       location,
-      folders: [],
-      treatmentCounts: 0,
-      folder: [],
+      // folders: [],
+      // treatmentCounts: 0,
+      // folder: [],
       createdBy: user.email.address,
     };
 
@@ -29,6 +29,8 @@ const Onboarding = () => {
     if (newUser) {
       navigate("/profile");
     }
+    console.log(newUser)
+    console.log(username,age,location)
   };
 
   return (
