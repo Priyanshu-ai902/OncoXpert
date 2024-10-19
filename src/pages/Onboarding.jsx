@@ -32,8 +32,8 @@ const Onboarding = () => {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-[#13131a]">
-      <div className="w-full max-w-md rounded-xl bg-[#1c1c24] p-8 shadow-lg">
+    <div className="flex  items-center justify-center bg-[#1c1c24]">
+      <div className="w-full max-w-md rounded-xl bg-[#15151b] p-8 shadow-lg">
         <h2 className="mb-2 text-center text-5xl font-bold text-white">👋 </h2>
         <h2 className="mb-6 text-center text-2xl font-bold text-white">
           Welcome! Let's get started
@@ -52,7 +52,7 @@ const Onboarding = () => {
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               required
-              className="w-full rounded-lg bg-neutral-900 px-4 py-3 text-neutral-400 focus:border-blue-600 focus:outline-none"
+              className="w-full rounded-lg bg-black px-4 py-3 text-neutral-400 focus:border-blue-600 focus:outline-none"
             />
           </div>
           <div className="mb-4">
@@ -65,7 +65,7 @@ const Onboarding = () => {
               value={age}
               onChange={(e) => setAge(e.target.value)}
               required
-              className="w-full rounded-lg bg-neutral-900 px-4 py-3 text-neutral-400 focus:border-blue-600 focus:outline-none"
+              className="w-full rounded-lg bg-black px-4 py-3 text-neutral-400 focus:border-blue-600 focus:outline-none"
             />
           </div>
           <div className="mb-4">
@@ -81,7 +81,7 @@ const Onboarding = () => {
               value={location}
               onChange={(e) => setLocation(e.target.value)}
               required
-              className="w-full rounded-lg bg-neutral-900 px-4 py-3 text-neutral-400 focus:border-blue-600 focus:outline-none"
+              className="w-full rounded-lg bg-black px-4 py-3 text-neutral-400 focus:border-blue-600 focus:outline-none"
             />
           </div>
           <button
