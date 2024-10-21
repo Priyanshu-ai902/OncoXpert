@@ -39,6 +39,7 @@ const App = () => {
           <Route path="/onboarding" element={<Onboarding />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/medical-records" element={<MedicalRecord />} />
+          {/* <Route path="/medical-records/:id" element={<SingleRecordDetails/>} /> */}
 
         </Routes>
       </div>
