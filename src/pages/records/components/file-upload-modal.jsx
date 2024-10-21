@@ -1,6 +1,6 @@
 import React from "react";
 import Modal from "./Modal";
-import { IconProgress } from "@tabler/icons-react";
+import { RiProgress1Fill } from "react-icons/ri";
 
 const FileUploadModal = ({
   isOpen,
@@ -52,7 +52,7 @@ const FileUploadModal = ({
         <small id="validFileFormats">PNG, PDF, JPEG - Max 5MB</small>
       </div>
       {uploading && (
-        <IconProgress
+        <RiProgress1Fill
           size={15}
           className="mr-3 mt-3 h-7 w-5 animate-spin text-white"
         />

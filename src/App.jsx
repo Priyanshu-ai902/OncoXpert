@@ -7,6 +7,7 @@ import Home from './pages/Home';
 import { Onboarding, Profile } from './pages';
 import { useStateContext } from './context';
 import { usePrivy } from '@privy-io/react-auth';
+import SingleRecordDetails from './pages/records/single-record-details';
 
 
 const App = () => {
@@ -39,7 +40,7 @@ const App = () => {
           <Route path="/onboarding" element={<Onboarding />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/medical-records" element={<MedicalRecord />} />
-          {/* <Route path="/medical-records/:id" element={<SingleRecordDetails/>} /> */}
+          <Route path="/medical-records/:id" element={<SingleRecordDetails/>} />
 
         </Routes>
       </div>
