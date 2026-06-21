@@ -31,20 +31,8 @@ const Navbar = () => {
 
 
     return (
-        <div className='mb-[35px] flex flex-col-reverse justify-between gap-6 md:flex-row pl-10'>
-            <div className="flex h-[52px] max-w-[458px] flex-row rounded-[100px] bg-[#0e0e1c] py-2 pl-4 pr-2 lg:flex-1">
-                <input
-                    type="text"
-                    className="flex w-full bg-transparent font-epilogue text-[14px] font-normal text-white outline-none placeholder:text-[#aeb9e3]"
-                />
-                <div className="flex h-full w-[72px] cursor-pointer items-center justify-center rounded-[30px] bg-[#008080]">
-                    <img
-                        src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/Search_Icon.svg/1024px-Search_Icon.svg.png"
-                        alt="search"
-                        className="h-[25px] w-[25px] object-contain"
-                    />
-                </div>
-            </div>
+        <div className='mb-[35px] flex justify-between gap-6 md:flex-row pl-10'>
+            <div className="hidden sm:block" />
 
             <div className="hidden flex-row justify-end gap-2 sm:flex">
                 <CustomButton
