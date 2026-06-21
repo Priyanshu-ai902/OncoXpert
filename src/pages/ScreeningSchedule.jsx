@@ -5,7 +5,7 @@ import KanbanBoard from "../components/KanbanBoard";
 const ScreeningSchedule = () => {
   const state = useLocation();
   return (
-    <div className="w-full p-5 ">
+    <div className="max-w-full p-3 ">
         <KanbanBoard state={state}/>
     </div>
   );

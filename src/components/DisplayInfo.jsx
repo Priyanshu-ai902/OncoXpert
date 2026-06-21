@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { usePrivy } from "@privy-io/react-auth";
 import MetricsCard from "./MetricsCard"; // Adjust the import path
 import { useStateContext } from "../context"; 
 import { BsHourglassSplit } from "react-icons/bs";
@@ -10,8 +9,7 @@ import { IoMdAlert } from "react-icons/io";
 
 const DisplayInfo = () => {
   const navigate = useNavigate();
-  const { user } = usePrivy();
-  const { fetchUserRecords, records, fetchUserByEmail } = useStateContext();
+  const { records } = useStateContext();
   const [metrics, setMetrics] = useState({
     totalFolders: 0,
     aiPersonalizedTreatment: 0,
@@ -22,56 +20,47 @@ const DisplayInfo = () => {
   });
 
   useEffect(() => {
-    if (user) {
-      fetchUserByEmail(user.email.address)
-        .then(() => {
-          console.log(records);
-          const totalFolders = records.length;
-          let aiPersonalizedTreatment = 0;
-          let totalScreenings = 0;
-          let completedScreenings = 0;
-          let pendingScreenings = 0;
-          let overdueScreenings = 0;
+    const totalFolders = records.length;
+    let aiPersonalizedTreatment = 0;
+    let totalScreenings = 0;
+    let completedScreenings = 0;
+    let pendingScreenings = 0;
+    let overdueScreenings = 0;
 
-          records.forEach((record) => {
-            if (record.kanbanRecords) {
-              try {
-                const kanban = JSON.parse(record.kanbanRecords);
-                aiPersonalizedTreatment += kanban.columns.some(
-                  (column) => column.title === "AI Personalized Treatment",
-                )
-                  ? 1
-                  : 0;
-                totalScreenings += kanban.tasks.length;
-                completedScreenings += kanban.tasks.filter(
-                  (task) => task.columnId === "done",
-                ).length;
-                pendingScreenings += kanban.tasks.filter(
-                  (task) => task.columnId === "doing",
-                ).length;
-                overdueScreenings += kanban.tasks.filter(
-                  (task) => task.columnId === "overdue",
-                ).length;
-              } catch (error) {
-                console.error("Failed to parse kanbanRecords:", error);
-              }
-            }
-          });
+    records.forEach((record) => {
+      if (record.kanbanRecords) {
+        try {
+          const kanban = JSON.parse(record.kanbanRecords);
+          aiPersonalizedTreatment += kanban.columns?.some(
+            (column) => column.title === "AI Personalized Treatment",
+          )
+            ? 1
+            : 0;
+          totalScreenings += kanban.tasks?.length || 0;
+          completedScreenings += kanban.tasks?.filter(
+            (task) => task.columnId === "done",
+          ).length || 0;
+          pendingScreenings += kanban.tasks?.filter(
+            (task) => task.columnId === "doing",
+          ).length || 0;
+          overdueScreenings += kanban.tasks?.filter(
+            (task) => task.columnId === "overdue",
+          ).length || 0;
+        } catch (error) {
+          console.error("Failed to parse kanbanRecords:", error);
+        }
+      }
+    });
 
-          setMetrics({
-            totalFolders,
-            aiPersonalizedTreatment,
-            totalScreenings,
-            completedScreenings,
-            pendingScreenings,
-            overdueScreenings,
-          });
-        })
-        .catch((e) => {
-          console.log(e);
-        });
-    }
-  }, [user]);
+    setMetrics({
+      totalFolders,
+      aiPersonalizedTreatment,
+      totalScreenings,
+      completedScreenings,
+      pendingScreenings,
+      overdueScreenings,
+    });
+  }, [records]);
 
   const metricsData = [
     {

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useStateContext } from "../context";
 import { usePrivy } from "@privy-io/react-auth";
@@ -38,7 +38,7 @@ const Onboarding = () => {
       <div className="w-full max-w-md rounded-xl bg-[#15151b] p-8 shadow-lg">
         <h2 className="mb-2 text-center text-5xl font-bold text-white">👋 </h2>
         <h2 className="mb-6 text-center text-2xl font-bold text-white">
-          Welcome! Let's get started
+          Welcome! Let&apos;s get started
         </h2>
         <form onSubmit={handleOnboarding}>
           <div className="mb-4">

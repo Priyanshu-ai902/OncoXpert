@@ -35,7 +35,6 @@ const Navbar = () => {
             <div className="flex h-[52px] max-w-[458px] flex-row rounded-[100px] bg-[#0e0e1c] py-2 pl-4 pr-2 lg:flex-1">
                 <input
                     type="text"
-                    placeholder="Search for records"
                     className="flex w-full bg-transparent font-epilogue text-[14px] font-normal text-white outline-none placeholder:text-[#aeb9e3]"
                 />
                 <div className="flex h-full w-[72px] cursor-pointer items-center justify-center rounded-[30px] bg-[#008080]">

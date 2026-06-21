@@ -1,7 +1,8 @@
-import React, { createContext, useContext, useState, useCallback } from "react";
+import { createContext, useContext, useState, useCallback, useEffect } from "react";
 import { db } from "../utils/dbConfig"; 
 import { Users, Records } from "../utils/schema"; 
 import { eq } from "drizzle-orm";
+import { usePrivy } from "@privy-io/react-auth";
 
 const StateContext = createContext();
 
@@ -9,6 +10,9 @@ export const StateContextProvider = ({ children }) => {
   const [users, setUsers] = useState([]);
   const [records, setRecords] = useState([]);
   const [currentUser, setCurrentUser] = useState(null);
+  const [loadingUser, setLoadingUser] = useState(true);
+
+  const { ready, authenticated, user } = usePrivy();
 
   const fetchUsers = useCallback(async () => {
     try {
@@ -28,9 +32,12 @@ export const StateContextProvider = ({ children }) => {
         .execute();
       if (result.length > 0) {
         setCurrentUser(result[0]);
+        return result[0];
       }
+      return null;
     } catch (error) {
       console.error("Error fetching user by email:", error);
+      return null;
     }
   }, []);
 
@@ -39,10 +46,14 @@ export const StateContextProvider = ({ children }) => {
       const newUser = await db
         .insert(Users)
         .values(userData)
-        .returning({ id: Users.id, createdBy: Users.createdBy })
+        .returning()
         .execute();
-      setUsers((prevUsers) => [...prevUsers, newUser[0]]);
-      return newUser[0];
+      if (newUser.length > 0) {
+        setUsers((prevUsers) => [...prevUsers, newUser[0]]);
+        setCurrentUser(newUser[0]);
+        return newUser[0];
+      }
+      return null;
     } catch (error) {
       console.error("Error creating user:", error);
       return null;
@@ -81,7 +92,7 @@ export const StateContextProvider = ({ children }) => {
     try {
       const { documentID, ...dataToUpdate } = recordData;
       console.log(documentID, dataToUpdate);
-      const updatedRecords = await db
+      return await db
         .update(Records)
         .set(dataToUpdate)
         .where(eq(Records.id, documentID))
@@ -91,6 +102,38 @@ export const StateContextProvider = ({ children }) => {
       return null;
     }
   }, []);
+
+  useEffect(() => {
+    const syncUser = async () => {
+      if (!ready) {
+        return;
+      }
+
+      if (!authenticated || !user?.email?.address) {
+        setCurrentUser(null);
+        setRecords([]);
+        setLoadingUser(false);
+        return;
+      }
+
+      setLoadingUser(true);
+      try {
+        const dbUser = await fetchUserByEmail(user.email.address);
+        if (dbUser) {
+          await fetchUserRecords(user.email.address);
+        } else {
+          setCurrentUser(null);
+          setRecords([]);
+        }
+      } catch (error) {
+        console.error("Error syncing user data:", error);
+      } finally {
+        setLoadingUser(false);
+      }
+    };
+
+    syncUser();
+  }, [ready, authenticated, user, fetchUserByEmail, fetchUserRecords]);
 
   return (
     <StateContext.Provider
@@ -104,6 +147,7 @@ export const StateContextProvider = ({ children }) => {
         createRecord,
         currentUser,
         updateRecord,
+        loadingUser,
       }}
     >
       {children}

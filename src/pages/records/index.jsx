@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { usePrivy } from "@privy-io/react-auth";
 import { useStateContext } from "../../context/index";
@@ -13,18 +13,15 @@ const Index = () => {
     records,
     fetchUserRecords,
     createRecord,
-    fetchUserByEmail,
     currentUser,
   } = useStateContext();
   const [userRecords, setUserRecords] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
-    if (user) {
-      fetchUserByEmail(user.email.address);
-      fetchUserRecords(user.email.address);
-    }
-  }, [user, fetchUserByEmail, fetchUserRecords]);
+    console.log("User data:", user);
+  }, [user]);
+  
 
   useEffect(() => {
     setUserRecords(records);

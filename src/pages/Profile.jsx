@@ -6,19 +6,12 @@
 
 // export default Profile
 
-import React, { useEffect } from "react";
 import { useStateContext } from "../context";
-import { usePrivy } from "@privy-io/react-auth";
 
 const Profile = () => {
-  const { currentUser, fetchUserByEmail } = useStateContext();
-  const { user } = usePrivy();
+  const { currentUser } = useStateContext();
 
-  useEffect(() => {
-    if (!currentUser) {
-      fetchUserByEmail(user?.email?.address);
-    }
-  }, [currentUser, fetchUserByEmail]);
+
 
   if (!currentUser) {
     return (

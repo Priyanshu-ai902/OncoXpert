@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 
 import { useLocation, useNavigate } from "react-router-dom";
 import { useStateContext } from "../../context/index";
@@ -55,12 +55,12 @@ function SingleRecordDetails() {
   const handleFileUpload = async () => {
     setUploading(true);
     setUploadSuccess(false);
-  
+
     const genAI = new GoogleGenerativeAI(geminiApiKey);
-  
+
     try {
       const base64Data = await readFileAsBase64(file);
-  
+
       const imageParts = [
         {
           inlineData: {
@@ -69,33 +69,33 @@ function SingleRecordDetails() {
           },
         },
       ];
-  
-      const model = genAI.getGenerativeModel({ model: "gemini-1.5-pro" });
-  
+
+      const model = genAI.getGenerativeModel({ model: "gemini-3.1-flash-lite" });
+
       // Improved prompt to enforce strict instructions
       const prompt = `You are an expert in cancer and disease diagnosis. Based on the provided document, generate a clear, easy-to-read treatment plan for cancer patients.
       It must contain detailed treatment recommendations and include important information such as medication, lifestyle changes, and possible procedures. 
       Format the response in multiple paragraphs, making it easily readable and understandable.
       Do not state disclaimers like "I cannot provide medical advice" or "Consult a doctor"—only generate the treatment plan based on the provided knowledge.`;
-  
+
       const result = await model.generateContent([prompt, ...imageParts]);
-  
+
       const response = await result.response;
       const text = await response.text();
-  
+
       // Check if the response contains the undesired disclaimer
       if (text.includes("I cannot provide medical advice")) {
         throw new Error("Undesired response. Retrying...");
       }
-  
+
       setAnalysisResult(text);
-  
-      const updatedRecord = await updateRecord({
+
+      await updateRecord({
         documentID: state.id,
         analysisResult: text,
         kanbanRecords: "",
       });
-  
+
       setUploadSuccess(true);
       setIsModalOpen(false);
       setFilename("");
@@ -108,14 +108,14 @@ function SingleRecordDetails() {
       setUploading(false);
     }
   };
-  
+
 
   const processTreatmentPlan = async () => {
     setIsProcessing(true);
 
     const genAI = new GoogleGenerativeAI(geminiApiKey);
 
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-pro" });
+    const model = genAI.getGenerativeModel({ model: "gemini-3.1-flash-lite" });
 
     const prompt = `Your role and goal is to be an that will be using this treatment plan ${analysisResult} to create Columns:
                 - Todo: Tasks that need to be started
@@ -145,8 +145,15 @@ function SingleRecordDetails() {
 
     const result = await model.generateContent(prompt);
     const response = await result.response;
+    // const text = response.text();
+    // const parsedResponse = JSON.parse(text);
+
     const text = response.text();
-    const parsedResponse = JSON.parse(text);
+
+    const cleanText = text.replace(/```(?:json)?\n?/, "").replace(/```$/, "").trim();
+
+    const parsedResponse = JSON.parse(cleanText);
+
 
     console.log(text);
     console.log(parsedResponse);
